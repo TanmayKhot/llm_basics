@@ -20,7 +20,7 @@ def merges(frequency, merged, run, limit):
     if run >= limit:
         return frequency, merged
     
-    # Get the frequence of pairs
+    # Get the frequency of pairs
     pairs = {}
     merged = merged.copy()
     for bytes, count in frequency.items():
@@ -30,7 +30,7 @@ def merges(frequency, merged, run, limit):
                 pairs[pair] = 0
             pairs[pair] += count
 
-    # Find the most frequent pair with exicographically greatest value
+    # Find the most frequent pair with lexicographically greatest value
     sorted_items = sorted(
         pairs.items(),
         key=lambda x: (x[1], max(x[0])),
@@ -39,9 +39,9 @@ def merges(frequency, merged, run, limit):
     max_val = max(pairs.values())
     max_keys = [k for k, v in pairs.items() if v == max_val]
     top_pair = max(max_keys)
-    
-    merged.append(top_pair)
     top_pair_value = (''.join(top_pair),)
+    merged.append(top_pair_value)
+    
     # Replace the most frequent pair of bytes with the merged pair
     keys = list(frequency.keys())
     for bytes in keys:
@@ -56,7 +56,7 @@ def merges(frequency, merged, run, limit):
            
     return merges(frequency, merged, run+1, limit)
 
-res, merged = merges(get_frequency(text), [], 0, 6)
+res, merged = merges(get_frequency(text), [], 0, 1)
 
 print(res, "\n\n")
 print(merged)
